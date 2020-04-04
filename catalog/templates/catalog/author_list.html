@@ -1,0 +1,24 @@
+{% extends 'base_generic.html' %}
+{% block title %}<title>Authors | Local Library</title>{% endblock %}
+{% block content %}
+    <h1>Author List</h1>
+    <ul>
+        {% for author in author_list %}
+            <li>
+                <a href="{{ author.get_absolute_url }}">
+                    {{ author }} ({{ author.date_of_birth }} - {{ author.date_of_death }})
+                </a>
+                {% if perms.catalog.update_author %}
+                    | <a href="{% url 'author-update' author.id %}">Update</a>
+                {% endif %}
+                {% if perms.catalog.delete_author %}
+                    | <a href="{% url 'author-delete' author.id %}">Delete</a>
+                {% endif %}
+            </li>
+        {% endfor %}
+    </ul>
+    {% if perms.catalog.add_author %}
+        <a href="{% url  'author-create' %}">Add author</a>
+    {% endif %}
+
+{% endblock %}
